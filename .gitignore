@@ -1,0 +1,35 @@
+# Ignore environment files
+.env
+
+# Ignore node_modules (if using Node.js)
+node_modules/
+
+# Ignore composer dependencies (if using PHP Composer)
+vendor/
+
+# Ignore XAMPP specific files
+*.log
+*.sql
+*.sqlite
+*.cache
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+*.bak
+*.swp
+*.swo
+
+# Ignore editor and OS-specific files
+.vscode/
+.idea/
+*.~*
+
+# Ignore dependency lock files (if needed)
+composer.lock
+package-lock.json
+yarn.lock
+
+# Ignore build files
+dist/
+build/

@@ -399,7 +399,7 @@
                     <section class="py-5 wow fadeInUp" data-wow-delay="0.1s" id="contact">
                         <h1 class="title pb-3 mb-5">Contact Me</h1>
 						<p class="mb-4">The contact form is currently inactive. Get a functional and working contact form with Ajax & PHP in a few minutes. Just copy and paste the files, add a little code and you're done.</p>
-                        <form id="contact-form">
+                        <form id="contact-form" autocomplete="off">
                             <div class="row g-3">
                                 <div class="col-md-6">
                                     <div class="form-floating">
@@ -484,9 +484,41 @@
             // JavaScript to auto-update the year
             document.getElementById("year").textContent = new Date().getFullYear();
 
-
-            document.getElementById("contact-form").addEventListener("submit", function (event) {
+document.getElementById("contact-form").addEventListener("submit", function (event) {
     event.preventDefault();
+
+    let isValid = true;
+    let name = document.getElementById("name").value.trim();
+    let email = document.getElementById("email").value.trim();
+    let subject = document.getElementById("subject").value.trim();
+    let message = document.getElementById("message").value.trim();
+    let messageBox = document.getElementById("form-message");
+
+    // Validation logic
+    if (name.length < 3) {
+        isValid = false;
+        alert("Name must be at least 3 characters long.");
+        return false;
+    }
+    if (!/^\S+@\S+\.\S+$/.test(email)) {
+        isValid = false;
+        alert("Please enter a valid email address.");
+        return false;
+    }
+    if (subject.length < 5) {
+        isValid = false;
+        alert("Subject must be at least 5 characters long.");
+        return false;
+    }
+    if (message.length < 10) {
+        isValid = false;
+        alert("Message must be at least 10 characters long.");
+        return false;
+    }
+
+    if (!isValid) {
+        return;
+    }
 
     let formData = new FormData(this);
 
@@ -496,29 +528,27 @@
     })
     .then(response => response.json())
     .then(data => {
-        let messageBox = document.getElementById("form-message");
         if (data.success) {
             messageBox.innerHTML = `<div class="alert alert-success">${data.message}</div>`;
-            document.getElementById("contact-form").reset();
-            alert('Message sent successfully!');
-            
-            // Delay the reload slightly
+            alert("Message sent successfully!");
+
+            // Ensure the mail is sent before reloading
             setTimeout(() => {
                 location.reload();
-            }, 1000); // 1-second delay
-
+            }, 1500); // Reload after 1.5 seconds
         } else {
             messageBox.innerHTML = `<div class="alert alert-danger">${data.message}</div>`;
         }
     })
     .catch(error => {
         console.error("Error:", error);
-        document.getElementById("form-message").innerHTML = `<div class="alert alert-danger">Something went wrong. Please try again.</div>`;
+        messageBox.innerHTML = `<div class="alert alert-danger">Something went wrong. Please try again.</div>`;
     });
 });
 
-   
 
-        </script>
-    </body>
+
+
+</script>
+</body>
 </html>
